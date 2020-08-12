@@ -15,12 +15,11 @@
       </div>
     </div> <!-- end post -->
 
-    <!-- <pagination-posts
-      v-if="$page.posts.pageInfo.totalPages > 1"
-      base="/blog"
-      :totalPages="$page.posts.pageInfo.totalPages"
-      :currentPage="$page.posts.pageInfo.currentPage"
-    /> -->
+    <div class="flex justify-between text-xl items-center">
+      <a :href="previousPage" :class="{ 'text-gray-400 hover:text-gray-400 cursor-not-allowed': !showPreviousPage }">&larr; Prev</a>
+      <div class="text-base">Page {{ currentPage }} of {{ totalPages }}</div>
+      <a :href="nextPage" :class="{ 'text-gray-400 hover:text-gray-400 cursor-not-allowed': !showNextPage }">Next &rarr;</a>
+    </div>
   </div>
 </template>
 
@@ -30,7 +29,32 @@ import { format } from 'date-fns'
 export default {
   data() {
     return {
-      posts: null,
+      posts: [],
+      currentPage: 1,
+      pagination: 3,
+      allPosts: [],
+      base: '/blog',
+    }
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.allPosts.length / this.pagination)
+    },
+    showPreviousPage() {
+      return this.currentPage !== 1
+    },
+    previousPage() {
+      return [0, 1].includes(this.currentPage - 1)
+        ? this.base
+        : `${this.base}?page=${this.currentPage - 1}`;
+    },
+    showNextPage() {
+      return this.currentPage !== this.totalPages
+    },
+    nextPage(currentPage, totalPages) {
+      return this.totalPages > this.currentPage
+        ? `${this.base}?page=${this.currentPage + 1}`
+        : `${this.base}?page=${this.currentPage}`;
     }
   },
   methods: {
@@ -39,13 +63,22 @@ export default {
     }
   },
   async fetch() {
+    this.currentPage = parseInt(this.$route.query.page) ? parseInt(this.$route.query.page) : 1
+
+    this.allPosts = await this.$content()
+      .fetch()
+
+    if (this.currentPage > this.totalPages) {
+      this.$router.push('/blog')
+      window.location.href = '/blog'
+    }
+
     this.posts = await this.$content()
       .sortBy('date', 'desc')
+      .limit(this.pagination)
+      .skip((this.currentPage - 1) * this.pagination)
       .fetch()
-  }
+  },
+  fetchOnServer: false
 }
 </script>
-
-<style>
-
-</style>
