@@ -20,8 +20,6 @@ tags: ['frontend', 'coding', 'vue']
 - **Auto-optimized code** - Get code-splitting and asset optimization out-of-the-box.
 - **Static files generation** - Deploy securely to any CDN or static web host.
 
-[Learn more about how Gridsome works](/docs/how-it-works)
-
 ```js
 export default {
   name: 'Card',
@@ -42,7 +40,7 @@ export default {
 ### Prerequisites
 You should have basic knowledge about HTML, CSS, [Vue.js](https://vuejs.org) and how to use the [Terminal](https://www.linode.com/docs/tools-reference/tools/using-the-terminal/). Knowing how [Vue Single File components](https://vuejs.org/v2/guide/single-file-components.html) & [GraphQL](https://www.graphql.com/) works is a plus, but not required. Gridsome is a great way to learn both.
 
-Gridsome requires **Node.js** and recommends **Yarn**. [How to setup](/docs/prerequisites)
+Gridsome requires **Node.js** and recommends **Yarn**.
 
 ![background](/background.jpg)
 
@@ -66,7 +64,3 @@ Using npm:
 1. Create `.vue` components in the `/pages` directory to create page routes.
 2. Use `gridsome build` to generate static files in a `/dist` folder
 
-
-- [How it works](/docs/how-it-works)
-- [How Pages work](/docs/pages)
-- [How to deploy](/docs/deployment)
