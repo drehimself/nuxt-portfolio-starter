@@ -63,10 +63,10 @@ export default {
     }
   },
   async fetch() {
-    this.currentPage = parseInt(this.$route.query.page) ? parseInt(this.$route.query.page) : 1
-
     this.allPosts = await this.$content()
       .fetch()
+
+    this.currentPage = parseInt(this.$route.query.page) ? parseInt(this.$route.query.page) : 1
 
     if (this.currentPage > this.totalPages) {
       this.$router.push('/blog')
